@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.1 -->
+<interface>
+  <!-- interface-name gas_blender.ui -->
+  <requires lib="libadwaita" version="1.5"/>
+  <template class="GasBlenderDialog" parent="AdwPreferencesDialog">
+    <property name="title">Gas Blender</property>
+    <child>
+      <object class="AdwToolbarView">
+        <property name="content">
+          <object class="GasBlenderWidget"/>
+        </property>
+        <child type="top">
+          <object class="AdwHeaderBar"/>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

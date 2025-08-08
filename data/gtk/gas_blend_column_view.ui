@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.1 -->
+<interface>
+  <!-- interface-name gas_blend_column_view.ui -->
+  <requires lib="gtk" version="4.0"/>
+  <template class="GasBlendColumnView" parent="GtkColumnView">
+    <property name="hexpand">True</property>
+  </template>
+</interface>

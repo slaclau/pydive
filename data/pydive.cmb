@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!DOCTYPE cambalache-project SYSTEM "cambalache-project.dtd">
+<!-- Created with Cambalache 0.96.1 -->
+<cambalache-project version="0.96.0" target_tk="gtk-4.0">
+  <ui template-class="GasConfigurator" filename="gtk/gas_configurator.ui" sha256="51e99fe3af72bc621159309ef20aa09aa2c406cdf0f64b57c817b599d845ea6b"/>
+  <ui template-class="DivePointColumnView" filename="gtk/dive_point_column_view.ui" sha256="86d7bd544f1464de12bc1ea86dd54f6f1aa8a2efee5dad67d99daaf9f6189669"/>
+  <ui template-class="GasBlendColumnView" filename="gtk/gas_blend_column_view.ui" sha256="8c7a0c5eede0b1bb599a35228cb06f5629b6521758706eea7492612310709e04"/>
+  <ui template-class="GasBlenderWidget" filename="gtk/gas_blender_widget.ui" sha256="274a4e28b55d4f52c985b9b2c17dfd37cf29455171865abb28ce5c6be6eca5c0">
+    <requires>GasConfigurator</requires>
+  </ui>
+  <ui template-class="DivePointView" filename="gtk/dive_point_view.ui" sha256="1086229d59723c4a5ff1a62b44e56a25369db7258d5020357061b916572ed017">
+    <requires>DivePointColumnView</requires>
+  </ui>
+  <ui template-class="PyDiveWindow" filename="gtk/main.ui" sha256="7cc5b22dd25153bc72ea86779324bec5bd2306d359fc21c82bbe9d56e881984c">
+    <requires>GasBlendColumnView</requires>
+    <requires>DivePointView</requires>
+  </ui>
+  <ui template-class="GasBlenderDialog" filename="gtk/gas_blender.ui" sha256="02810ec970a727240bce3ae653d78d9f9011851780b45c3cf31ebe5b47421b34">
+    <requires>GasBlenderWidget</requires>
+  </ui>
+  <ui template-class="GasBlendView" filename="gtk/gas_blend_view.ui" sha256="a7e040778f1cec8b7f184a9246a86ad278c787261e30e0a92c80dfe81e73880c">
+    <requires>GasBlendColumnView</requires>
+  </ui>
+</cambalache-project>

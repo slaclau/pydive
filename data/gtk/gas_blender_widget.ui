@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.1 -->
+<interface>
+  <!-- interface-name gas_blender_widget.ui -->
+  <requires lib="gtk" version="4.16"/>
+  <requires lib="libadwaita" version="1.4"/>
+  <template class="GasBlenderWidget" parent="AdwBin">
+    <property name="child">
+      <object class="GtkBox">
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GasConfigurator" id="initial_gas">
+                <property name="title">Initial Fill</property>
+                <child>
+                  <object class="GtkGrid">
+                    <property name="column-homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Volume (l)</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton">
+                        <property name="adjustment">
+                          <object class="GtkAdjustment" id="initial_volume_adjustment">
+                            <property name="page-increment">3.0</property>
+                            <property name="step-increment">1.0</property>
+                            <property name="upper">24.0</property>
+                            <property name="value">9.0</property>
+                          </object>
+                        </property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Pressure (bar)</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton">
+                        <property name="adjustment">
+                          <object class="GtkAdjustment" id="initial_pressure_adjustment">
+                            <property name="lower">1.0</property>
+                            <property name="page-increment">5.0</property>
+                            <property name="step-increment">1.0</property>
+                            <property name="upper">500.0</property>
+                            <property name="value">1.0</property>
+                          </object>
+                        </property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GasConfigurator" id="desired_gas">
+                <property name="title">Desired Fill</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Pressure (bar)</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton">
+                        <property name="adjustment">
+                          <object class="GtkAdjustment" id="desired_pressure_adjustment">
+                            <property name="lower">1.0</property>
+                            <property name="page-increment">5.0</property>
+                            <property name="step-increment">1.0</property>
+                            <property name="upper">500.0</property>
+                            <property name="value">232.0</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow"/>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTextView">
+            <property name="buffer">
+              <object class="GtkTextBuffer" id="buffer">
+                <property name="enable-undo">False</property>
+                <property name="text">THIS SHOULD NEVER BE SEEN</property>
+              </object>
+            </property>
+            <property name="cursor-visible">False</property>
+            <property name="editable">False</property>
+            <property name="hexpand">True</property>
+            <property name="monospace">True</property>
+            <property name="width-request">400</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GasConfigurator" id="topup_gas_1">
+                <property name="title">Topup Gas 1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GasConfigurator" id="topup_gas_2">
+                <property name="title">Topup Gas 2</property>
+              </object>
+            </child>
+            <child>
+              <object class="GasConfigurator" id="topup_gas_3">
+                <property name="title">Topup Gas 3</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>

@@ -1,0 +1,41 @@
+[project]
+name = "pydive"
+dynamic = ["version"]
+readme = "README.md"
+dependencies = []
+
+[build-system]
+requires = [
+    "meson-python",
+    "setuptools>=64",
+    "setuptools_scm>=8",
+    "setuptools_scm_custom",
+]
+build-backend = "mesonpy"
+
+[tool.meson-python.args]
+install = ['--wheel']
+
+[project.optional-dependencies]
+doc = []
+lint = ["black", "isort", "flake8", "flake8-pyproject", "flake8-pylint", "flake8-json", "flake8-bugbear", "mypy", "mypy-json-report", "deptry"]
+test = ["pytest", "pytest-cov", "pytest-html"]
+dev = ["pydive[doc, lint, test]"]
+
+[tool.setuptools.dynamic]
+readme = { file = "README.md", content-type = "text/markdown" }
+
+[tool.setuptools_scm]
+version_scheme = "setuptools_scm_custom:custom"
+local_scheme = "setuptools_scm_custom:custom_local"
+version_file = "src/pydive/_version.py"
+
+[tool.setuptools_scm_custom]
+version_scheme = "[{tag}?{distance}==0:{next_tag}][.dev{distance}?{distance}>0]"
+local_scheme = "[+{node}?{distance}>0][[+?{distance}==0:.]d{node_date}?{dirty}==True]"
+
+[tool.coverage.report]
+exclude_also = [
+    'if __name__ == .__main__.:',
+    '__str__',
+]

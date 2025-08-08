@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/io/github/slaclau/pydive/">
+    <file preprocess="xml-stripblanks">gtk/main.ui</file>
+    <file preprocess="xml-stripblanks">gtk/gas_blender.ui</file>
+    <file preprocess="xml-stripblanks">gtk/gas_blender_widget.ui</file>
+    <file preprocess="xml-stripblanks">gtk/gas_configurator.ui</file>
+    <file preprocess="xml-stripblanks">gtk/dive_point_view.ui</file>
+    <file preprocess="xml-stripblanks">gtk/dive_point_column_view.ui</file>
+    <file preprocess="xml-stripblanks">gtk/gas_blend_view.ui</file>
+    <file preprocess="xml-stripblanks">gtk/gas_blend_column_view.ui</file>
+  </gresource>
+</gresources>

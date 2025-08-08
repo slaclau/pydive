@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.1 -->
+<interface>
+  <!-- interface-name pydive.ui -->
+  <requires lib="gio" version="2.44"/>
+  <requires lib="gtk" version="4.16"/>
+  <requires lib="libadwaita" version="1.4"/>
+  <template class="PyDiveWindow" parent="AdwApplicationWindow">
+    <property name="title">PyDive</property>
+    <child>
+      <object class="AdwToolbarView">
+        <property name="content">
+          <object class="AdwOverlaySplitView">
+            <property name="max-sidebar-width">600.0</property>
+            <property name="sidebar">
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GasBlendView" id="gas_blend_view">
+                    <property name="vexpand">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="DivePointView" id="dive_point_view">
+                    <property name="vexpand">True</property>
+                  </object>
+                </child>
+              </object>
+            </property>
+            <property name="sidebar-width-fraction">0.4</property>
+          </object>
+        </property>
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <child type="end">
+              <object class="GtkMenuButton">
+                <property name="icon-name">open-menu-symbolic</property>
+                <property name="menu-model">main_menu</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <menu id="main_menu">
+    <section>
+      <item>
+        <attribute name="action">win.show_gas_blender</attribute>
+        <attribute name="label">Gas Blender</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>
