@@ -2,14 +2,14 @@ import logging
 
 import gi
 
-from pydive.gas import air, GasBlend
-from pydive.gui.gas_blend_view import GasChoice, GasBlendView
+from pydive.gas import GasBlend, air
+from pydive.gui.dive_point_view import DivePoint, DivePointView
+from pydive.gui.gas_blend_view import GasBlendView, GasChoice
 from pydive.gui.gas_blender import GasBlenderDialog
-from pydive.gui.dive_point_view import DivePointView, DivePoint
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Adw, Gtk, Gio
+from gi.repository import Adw, Gio, Gtk
 
 logger = logging.getLogger(__name__)
 

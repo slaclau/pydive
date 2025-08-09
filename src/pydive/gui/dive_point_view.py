@@ -1,10 +1,10 @@
 import gi
 
 from pydive.gui.gas_blend_view import GasChoice
-from pydive.gui.widgets import IntEntryColumn, IntLabelColumn, DeleteColumn
+from pydive.gui.widgets import DeleteColumn, IntEntryColumn, IntLabelColumn
 
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gio, Gtk, GObject
+from gi.repository import Gio, GObject, Gtk
 
 
 class DivePoint(GObject.GObject):

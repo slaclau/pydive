@@ -3,11 +3,11 @@ import math
 
 import gi
 
-from pydive.gas import GasBlend, Oxygen, Helium
-from pydive.gui.widgets import IntEntryColumn, DeleteColumn, LabelColumn, IntLabelColumn
+from pydive.gas import GasBlend, Helium, Oxygen
+from pydive.gui.widgets import DeleteColumn, IntEntryColumn, IntLabelColumn, LabelColumn
 
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk, Gio, GObject
+from gi.repository import Gio, GObject, Gtk
 
 
 class GasChoice(GObject.Object):

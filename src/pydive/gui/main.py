@@ -1,10 +1,9 @@
-import logging
-import sys
-import os
 import importlib.resources
+import logging
+import os
+import sys
 
 import gi
-
 from gi.repository import Gio
 
 from pydive.gui.app import PyDiveApp

@@ -2,12 +2,12 @@ import logging
 
 import gi
 
-from pydive.gas import GasBlend, Oxygen, Helium
+from pydive.gas import GasBlend, Helium, Oxygen
 from pydive.models.gas_consumption import Cylinder
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Adw, Gtk, GObject
+from gi.repository import Adw, GObject, Gtk
 
 logger = logging.getLogger(__name__)
 
