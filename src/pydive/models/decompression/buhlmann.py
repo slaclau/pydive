@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 
 import plotly.express as px
 
+from pydive.gas import Gas, Helium, Nitrogen, air
 from pydive.models.decompression.model import DecompressionModel
-from pydive.gas import Gas, Nitrogen, Helium, air
 
 if TYPE_CHECKING:
     import pydive.dive
@@ -65,14 +65,10 @@ class BuhlmannCompartment:
 class BuhlmannCompoundCompartment:
     compartments: list[BuhlmannCompartment]
 
-    history: list[float]
-
     def __init__(self, *args):
         self.compartments = []
         for arg in args:
             self.compartments.append(BuhlmannCompartment(*arg))
-
-        self.history = [self.pressure_limit()]
 
     def __repr__(self):
         return self.compartments.__repr__()
@@ -80,12 +76,10 @@ class BuhlmannCompoundCompartment:
     def apply_dive_step(self, step):
         for compartment in self.compartments:
             compartment.apply_dive_step(step)
-        self.history.append(self.pressure_limit(1))
 
     def undo_last_step(self):
         for compartment in self.compartments:
             compartment.undo_last_step()
-        self.history.pop(-1)
 
     @property
     def inert_gas_pressure(self):
