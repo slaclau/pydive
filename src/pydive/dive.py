@@ -1,33 +1,45 @@
 import copy
 import logging
 
-import plotly.express as px
 import pandas as pd
+import plotly.express as px
 
+from pydive.gas import GasBlend
+from pydive.models.base import Model
 from pydive.models.decompression.buhlmann import BuhlmannZHL16C
 from pydive.models.decompression.model import DecompressionModel
-from pydive.models.base import Model
-from pydive.models.oxygen_toxicity import PulmonaryOxygenToxicity, CNSOxygenToxicity
 from pydive.models.gas_consumption import GasConsumptionModel
-from pydive.gas import GasBlend
+from pydive.models.oxygen_toxicity import CNSOxygenToxicity, PulmonaryOxygenToxicity
 
 logger = logging.getLogger(__name__)
 
 
 class DiveStep:
+    dive: "Dive"
     gas: GasBlend
     start_depth: float
     rate: float
     duration: float
 
-    def __init__(self, start_depth, gas, rate, duration):
-        logger.debug(
-            f"Create DiveStep with {gas!r} @ {start_depth} m - {duration / 60:.1f} mins at {rate} m/min"
-        )
-        self.start_depth = start_depth
+    def __init__(self, dive, gas, rate, duration):
+        self.dive = dive
+        self.start_depth = dive.depth
         self.gas = gas
         self.rate = rate
         self.duration = duration
+        logger.debug(
+            f"Create DiveStep for Dive {dive} with {gas!r} @ {self.start_depth} m - {duration / 60:.1f} mins at {rate} m/min"
+        )
+
+    @property
+    def in_deco(self):
+        return self in self.dive.decompression_steps
+
+    @property
+    def step_index(self):
+        if self.in_deco:
+            return self.dive.decompression_steps.index(self)
+        return self.dive.steps.index(self)
 
     @property
     def depth_change(self):
@@ -120,24 +132,23 @@ class Dive:
             rate = self.default_descent_rate
         logger.info(f"descend to {to} m at {rate} m/min")
         return self.apply_step(
-            DiveStep(self.depth, self.gas, rate, (to - self.depth) / rate * 60)
+            DiveStep(self, self.gas, rate, (to - self.depth) / rate * 60)
         )
 
     def stay(self, duration):
         logger.info(f"stay at current depth for {duration} mins")
-        return self.apply_step(DiveStep(self.depth, self.gas, 0, duration * 60))
+        return self.apply_step(DiveStep(self, self.gas, 0, duration * 60))
 
     def ascend(self, to, rate=None):
         if rate is None:
             rate = self.default_ascent_rate
         logger.info(f"ascend to {to} m at {rate} m/min")
         return self.apply_step(
-            DiveStep(self.depth, self.gas, -rate, (self.depth - to) / rate * 60)
+            DiveStep(self, self.gas, -rate, (self.depth - to) / rate * 60)
         )
 
     def switch_gas(self, gas: GasBlend, switch_time=0):
-        return self.apply_step(DiveStep(self.depth, gas, 0, switch_time * 60))
-        return self.apply_step(DiveStep(self.depth, gas, 0, switch_time * 60))
+        return self.apply_step(DiveStep(self, gas, 0, switch_time * 60))
 
     @property
     def df(self):  # pragma: no cover
@@ -227,12 +238,8 @@ class Dive:
             time_left = step.duration
             while time_left > interval:
                 time_left -= interval
-                new_dive.apply_step(
-                    DiveStep(new_dive.depth, step.gas, step.rate, interval)
-                )
-            new_dive.apply_step(
-                DiveStep(new_dive.depth, step.gas, step.rate, time_left)
-            )
+                new_dive.apply_step(DiveStep(new_dive, step.gas, step.rate, interval))
+            new_dive.apply_step(DiveStep(new_dive, step.gas, step.rate, time_left))
         return new_dive
 
     def custom_df(self, column_functions: dict[str, callable]):
