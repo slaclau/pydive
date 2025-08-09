@@ -5,7 +5,6 @@ import numpy as np
 from pydive.gas import GasBlend, air
 from pydive.models.base import Model
 
-
 logger = logging.getLogger(__name__)
 
 

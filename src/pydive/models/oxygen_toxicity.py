@@ -1,8 +1,8 @@
 import importlib
 import math
-from _warnings import warn
 
 import pandas as pd
+from _warnings import warn
 
 from pydive.gas import Oxygen
 from pydive.models.base import Model

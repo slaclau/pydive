@@ -1,5 +1,5 @@
 from pydive.dive import Dive
-from pydive.gas import air, GasBlend
+from pydive.gas import GasBlend, air
 
 reference_dive_1 = Dive(air)
 reference_dive_1.default_ascent_rate = 5

@@ -1,7 +1,7 @@
 import dataclasses
-from enum import Enum
 import logging
 import math
+from enum import Enum
 from typing import TYPE_CHECKING
 
 from pydive.gas import GasBlend
@@ -38,9 +38,6 @@ class DecompressionModel(Model):
     gas_switch_time = 1
     include_ascent_to_stop_in_stop = True
     ascend_before_ceiling_check = True
-
-    # Try/Undo
-    trial_steps: list["pydive.dive.DiveStep"] = []
 
     def apply_dive_step(self, step):
         raise NotImplementedError
@@ -163,7 +160,9 @@ class DecompressionModel(Model):
             self.dive.stay(ts + dt)
             logger.debug(f"stop length between {ts} and {ts + dt}")
         logger.debug(f"stop length is {ts + dt}")
-        logger.debug(f"ceiling at {self.dive.depth} is {self.ceiling(self.dive.depth)} and would be {self.ceiling(next_stop)} at {next_stop}")
+        logger.debug(
+            f"ceiling at {self.dive.depth} is {self.ceiling(self.dive.depth)} and would be {self.ceiling(next_stop)} at {next_stop}"
+        )
         return DecompressionStop(
             depth=current_stop, duration=ts + dt + ascent_time, gas=self.dive.gas
         )
