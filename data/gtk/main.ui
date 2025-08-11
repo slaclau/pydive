@@ -11,21 +11,14 @@
       <object class="AdwToolbarView">
         <property name="content">
           <object class="AdwOverlaySplitView">
+            <property name="content">
+              <object class="GtkTextView" id="text_view">
+                <property name="editable">False</property>
+              </object>
+            </property>
             <property name="max-sidebar-width">600.0</property>
             <property name="sidebar">
-              <object class="GtkBox">
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GasBlendView" id="gas_blend_view">
-                    <property name="vexpand">True</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="DivePointView" id="dive_point_view">
-                    <property name="vexpand">True</property>
-                  </object>
-                </child>
-              </object>
+              <object class="DiveTableView" id="dive_table_view"/>
             </property>
             <property name="sidebar-width-fraction">0.4</property>
           </object>

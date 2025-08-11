@@ -45,6 +45,7 @@ class DivePoint(GObject.GObject):
     @depth.setter
     def depth(self, value):
         self._depth = value
+        self.emit("changed")
 
     @GObject.Property(type=int)
     def duration(self):
@@ -53,6 +54,7 @@ class DivePoint(GObject.GObject):
     @duration.setter
     def duration(self, value):
         self._duration = value
+        self.emit("changed")
 
     @GObject.Property(type=int)
     def runtime(self):
@@ -69,6 +71,11 @@ class DivePoint(GObject.GObject):
     @gas.setter
     def gas(self, value):
         self._gas = value
+        self.emit("changed")
+
+    @GObject.Signal
+    def changed(self):
+        pass
 
 
 @Gtk.Template(resource_path="/io/github/slaclau/pydive/gtk/dive_point_column_view.ui")
@@ -105,10 +112,6 @@ class DivePointColumnView(Gtk.ColumnView):
             )
             item.set_child(drop_down)
 
-            item.get_item().connect(
-                "notify::selected-item", lambda a, b, c: print([a, b, c])
-            )
-
         gas_factory = Gtk.SignalListItemFactory()
         gas_factory.connect("bind", gas_bind_function)
         gas_column = Gtk.ColumnViewColumn(expand=True, title="Gas", factory=gas_factory)
@@ -139,5 +142,10 @@ class DivePointView(Gtk.Box):
     @Gtk.Template.Callback()
     def add_dive_point(self, _):
         dive_point = DivePoint(self.dive_points, 0, 0, self.available_gases[0])
+        dive_point.connect("changed", lambda _: self.emit("points-changed"))
         self.dive_points.append(dive_point)
         dive_point.update()
+
+    @GObject.Signal
+    def points_changed(self):
+        print("points changed")

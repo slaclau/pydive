@@ -48,6 +48,7 @@ class GasChoice(GObject.Object):
         self.emit("notify::deco-mod", self.find_property("deco-mod"))
         self.emit("notify::bottom-mod", self.find_property("bottom-mod"))
         self.emit("notify::mnd", self.find_property("mnd"))
+        self.emit("changed")
 
     @GObject.Property(type=str)
     def name(self):
@@ -55,9 +56,13 @@ class GasChoice(GObject.Object):
 
     @GObject.Property(type=str)
     def deco_mod(self):
+        return f"{self.switch_depth:.0f} m"
+
+    @property
+    def switch_depth(self):
         depth = self.gas.max_operating_depth
         depth = math.floor(depth / 3) * 3
-        return f"{depth:.0f} m"
+        return depth
 
     @GObject.Property(type=str)
     def bottom_mod(self):
@@ -68,6 +73,10 @@ class GasChoice(GObject.Object):
     def mnd(self):
         depth = self.gas.max_narcotic_depth
         return f"{depth:.0f} m"
+
+    @GObject.Signal
+    def changed(self):
+        pass
 
 
 @Gtk.Template(resource_path="/io/github/slaclau/pydive/gtk/gas_blend_column_view.ui")
@@ -107,4 +116,9 @@ class GasBlendView(Gtk.Box):
     @Gtk.Template.Callback()
     def add_gas(self, _):
         gas = GasChoice(GasBlend(oxygen=0.21, nitrogen=0.79))
+        gas.connect("changed", lambda _: self.emit("gases-changed"))
         self.gases.append(gas)
+
+    @GObject.Signal
+    def gases_changed(self):
+        print("gases changed")

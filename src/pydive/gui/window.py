@@ -4,6 +4,7 @@ import gi
 
 from pydive.gas import GasBlend, air
 from pydive.gui.dive_point_view import DivePoint, DivePointView
+from pydive.gui.dive_table_view import DiveTableView
 from pydive.gui.gas_blend_view import GasBlendView, GasChoice
 from pydive.gui.gas_blender import GasBlenderDialog
 
@@ -18,8 +19,8 @@ logger = logging.getLogger(__name__)
 class PyDiveWindow(Adw.ApplicationWindow):
     __gtype_name__ = "PyDiveWindow"
 
-    gas_blend_view: GasBlendView = Gtk.Template.Child()
-    dive_point_view: DivePointView = Gtk.Template.Child()
+    dive_table_view: DiveTableView = Gtk.Template.Child()
+    text_view: Gtk.TextView = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -33,11 +34,16 @@ class PyDiveWindow(Adw.ApplicationWindow):
             self.add_action(gaction)
         logger.debug("actions added")
 
-        gases = self.gas_blend_view.gases
-        gases.append(GasChoice(GasBlend(oxygen=0.21, nitrogen=0.79)))
-        self.dive_point_view.available_gases = gases
-        self.dive_point_view.dive_points.append(
-            DivePoint(self.dive_point_view.dive_points, 20, 10, gases[0].gas)
+        def get_decompressed_dive(view):
+            dive = view.dive
+            dive.decompress()
+            return dive
+
+        self.dive_table_view.connect(
+            "dive-changed",
+            lambda view: self.text_view.get_buffer().set_text(
+                get_decompressed_dive(view).markdown
+            ),
         )
 
         logger.debug("window created")

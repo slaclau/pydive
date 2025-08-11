@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Created with Cambalache 0.96.1 -->
 <interface>
+  <!-- interface-name gas_blend_view.ui -->
   <requires lib="gtk" version="4.16"/>
   <template class="GasBlendView" parent="GtkBox">
     <property name="orientation">vertical</property>

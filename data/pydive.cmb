@@ -11,14 +11,17 @@
   <ui template-class="DivePointView" filename="gtk/dive_point_view.ui" sha256="1086229d59723c4a5ff1a62b44e56a25369db7258d5020357061b916572ed017">
     <requires>DivePointColumnView</requires>
   </ui>
-  <ui template-class="PyDiveWindow" filename="gtk/main.ui" sha256="7cc5b22dd25153bc72ea86779324bec5bd2306d359fc21c82bbe9d56e881984c">
+  <ui template-class="GasBlendView" filename="gtk/gas_blend_view.ui" sha256="06502ee5b5b504b20b5a4ede509816a8b5af6455b647d2237d3026b0351b6614">
     <requires>GasBlendColumnView</requires>
-    <requires>DivePointView</requires>
   </ui>
   <ui template-class="GasBlenderDialog" filename="gtk/gas_blender.ui" sha256="02810ec970a727240bce3ae653d78d9f9011851780b45c3cf31ebe5b47421b34">
     <requires>GasBlenderWidget</requires>
   </ui>
-  <ui template-class="GasBlendView" filename="gtk/gas_blend_view.ui" sha256="a7e040778f1cec8b7f184a9246a86ad278c787261e30e0a92c80dfe81e73880c">
-    <requires>GasBlendColumnView</requires>
+  <ui template-class="DiveTableView" filename="gtk/dive_table_view.ui" sha256="9f200c39a1314e8312a6ffe24186da6301a71b3dcaec0b2361c9d731c6a7a636">
+    <requires>GasBlendView</requires>
+    <requires>DivePointView</requires>
+  </ui>
+  <ui template-class="PyDiveWindow" filename="gtk/main.ui" sha256="a6590f190c226a41081d6126bfaa0e77b732ee3671c0c414cf8c3f98bcc891b5">
+    <requires>DiveTableView</requires>
   </ui>
 </cambalache-project>

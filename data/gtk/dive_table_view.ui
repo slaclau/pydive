@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.1 -->
+<interface>
+  <!-- interface-name dive_table_view.ui -->
+  <requires lib="gtk" version="4.16"/>
+  <template class="DiveTableView" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GasBlendView" id="gas_blend_view">
+        <property name="vexpand">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="DivePointView" id="dive_point_view">
+        <property name="vexpand">True</property>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -91,6 +91,7 @@ class DeleteColumn(Gtk.ColumnViewColumn):
 
         def delete_bind_function(_, item: Gtk.ListItem):
             button = Gtk.Button(icon_name="trash-symbolic")
+            button.add_css_class("flat")
             item.set_child(button)
 
             found, position = list.find(item.get_item())
