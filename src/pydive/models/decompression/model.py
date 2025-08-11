@@ -38,6 +38,7 @@ class DecompressionModel(Model):
     gas_switch_time = 1
     include_ascent_to_stop_in_stop = True
     ascend_before_ceiling_check = True
+    switch_only_at_required_stop = False
 
     def apply_dive_step(self, step):
         raise NotImplementedError
@@ -77,19 +78,33 @@ class DecompressionModel(Model):
             ascent_time = sum([step.duration for step in ascent])
 
     def ascend_check_switch(self, depth):
-        steps = []
-        switch = self._next_switch
-        while switch and depth < switch:
-            steps.append(self.dive.ascend(switch))
-            steps.append(
-                self.dive.switch_gas(self.dive.deco_gases[switch], self.gas_switch_time)
-            )
+        if self.switch_only_at_required_stop:
+            steps = [self.dive.ascend(depth)]
+            if (
+                self._last_switch is not None
+                and self.dive.gas != self.dive.deco_gases[self._last_switch]
+            ):
+                steps.append(
+                    self.dive.switch_gas(self.dive.deco_gases[self._last_switch])
+                )
+        else:
+            steps = []
             switch = self._next_switch
-        steps.append(self.dive.ascend(depth))
-        if depth == switch:
-            steps.append(
-                self.dive.switch_gas(self.dive.deco_gases[switch], self.gas_switch_time)
-            )
+            while switch and depth < switch:
+                steps.append(self.dive.ascend(switch))
+                steps.append(
+                    self.dive.switch_gas(
+                        self.dive.deco_gases[switch], self.gas_switch_time
+                    )
+                )
+                switch = self._next_switch
+            steps.append(self.dive.ascend(depth))
+            if depth == switch:
+                steps.append(
+                    self.dive.switch_gas(
+                        self.dive.deco_gases[switch], self.gas_switch_time
+                    )
+                )
         return steps
 
     def can_ascend(self, depth):
@@ -100,7 +115,7 @@ class DecompressionModel(Model):
             rtn = self.ceiling(depth) <= depth
             self.dive.undo_steps(len(steps))
         else:
-            rtn = self.ceiling(self.dive.depth) <= depth
+            rtn = self.ceiling(depth) <= depth
         logger.info(f"can ascend to {depth:.0f} m from {self.dive.depth:.0f} m: {rtn}")
         return rtn
 
@@ -159,6 +174,10 @@ class DecompressionModel(Model):
             self.dive.undo_last_step()
             self.dive.stay(ts + dt)
             logger.debug(f"stop length between {ts} and {ts + dt}")
+        if not self.can_ascend(next_stop):
+            ts = ts + dt
+            self.dive.undo_last_step()
+            self.dive.stay(ts + dt)
         logger.debug(f"stop length is {ts + dt}")
         logger.debug(
             f"ceiling at {self.dive.depth} is {self.ceiling(self.dive.depth)} and would be {self.ceiling(next_stop)} at {next_stop}"
@@ -172,6 +191,14 @@ class DecompressionModel(Model):
         switch_depths = [d for d in self.dive.deco_gases if d < self.dive.depth]
         if switch_depths:
             depth = max(switch_depths)
+            return depth
+        return None
+
+    @property
+    def _last_switch(self):
+        switch_depths = [d for d in self.dive.deco_gases if d >= self.dive.depth]
+        if switch_depths:
+            depth = min(switch_depths)
             return depth
         return None
 
