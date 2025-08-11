@@ -259,3 +259,7 @@ class Dive:
             current_time += step.duration
         df = pd.DataFrame(df_dict)
         return df
+
+    def decompress(self):
+        for _ in self.decompression_model.calculate_decompression_profile():
+            pass
