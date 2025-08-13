@@ -91,4 +91,4 @@ if __name__ == "__main__":
             print(f"{dive.models["cns"]} cns")
             print(f"{dive.models["decompression"]} deco loading")
             print(dive.models["consumption"])
-            print("-" * 60)
+            print("-" * 71)

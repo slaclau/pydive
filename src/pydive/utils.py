@@ -5,14 +5,13 @@ from numpy.polynomial import Polynomial as NPPolynomial
 logger = logging.getLogger(__name__)
 
 
-class Polynomial(NPPolynomial):
+class Polynomial:
     def __init__(self, coefficients):
         coefficients.reverse()
-        super().__init__(coefficients)
-        logger.debug(f"created polynomial with coefficients {coefficients}")
+        self.coef = coefficients
 
     def roots(self):
-        if self.degree() == 3:
+        if len(self.coef) == 4:
             coefficients = self.coef
             if coefficients[-2] == 0 and coefficients[-1] == 1:
                 b = -coefficients[-3]
@@ -29,7 +28,7 @@ class Polynomial(NPPolynomial):
                     (2 / 3) ** (1 / 3) * b / denominator + denominator / 18 ** (1 / 3)
                 ]
 
-        all_roots = NPPolynomial.roots(self)
+        all_roots = NPPolynomial(self.coef).roots()
 
         def is_real(root):
             return abs(root.real) >= abs(root.imag) * 10**6

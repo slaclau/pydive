@@ -357,7 +357,7 @@ class VPMB(BuhlmannZHL16C):
         for compartment in self.compartments:
             depth_change = self.dive.depth / 2
             target_depth = self.dive.depth - depth_change
-            while depth_change >= 10**-6:
+            while depth_change >= 10**-2:
                 depth_change /= 2
                 steps = self.ascend_check_switch(target_depth)
                 if (
