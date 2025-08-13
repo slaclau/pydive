@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.1 -->
+<interface>
+  <requires lib="libadwaita" version="1.0"/>
+  <requires lib="webkitgtk" version="6.0"/>
+  <template class="DiveViewer" parent="AdwBin">
+    <child>
+      <object class="WebKitWebView" id="web_view"/>
+    </child>
+  </template>
+</interface>

@@ -5,6 +5,7 @@ import gi
 from pydive.gas import GasBlend, air
 from pydive.gui.dive_point_view import DivePoint, DivePointView
 from pydive.gui.dive_table_view import DiveTableView
+from pydive.gui.dive_viewer import DiveViewer
 from pydive.gui.gas_blend_view import GasBlendView, GasChoice
 from pydive.gui.gas_blender import GasBlenderDialog
 
@@ -20,7 +21,7 @@ class PyDiveWindow(Adw.ApplicationWindow):
     __gtype_name__ = "PyDiveWindow"
 
     dive_table_view: DiveTableView = Gtk.Template.Child()
-    text_view: Gtk.TextView = Gtk.Template.Child()
+    dive_viewer: DiveViewer = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -41,9 +42,7 @@ class PyDiveWindow(Adw.ApplicationWindow):
 
         self.dive_table_view.connect(
             "dive-changed",
-            lambda view: self.text_view.get_buffer().set_text(
-                get_decompressed_dive(view).markdown
-            ),
+            lambda view: self.dive_viewer.display_dive(get_decompressed_dive(view)),
         )
 
         logger.debug("window created")

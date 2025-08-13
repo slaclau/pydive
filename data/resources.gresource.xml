@@ -10,5 +10,6 @@
     <file preprocess="xml-stripblanks">gtk/dive_point_column_view.ui</file>
     <file preprocess="xml-stripblanks">gtk/gas_blend_view.ui</file>
     <file preprocess="xml-stripblanks">gtk/gas_blend_column_view.ui</file>
+    <file preprocess="xml-stripblanks">gtk/dive_viewer.ui</file>
   </gresource>
 </gresources>

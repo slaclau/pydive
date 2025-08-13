@@ -12,9 +12,7 @@
         <property name="content">
           <object class="AdwOverlaySplitView">
             <property name="content">
-              <object class="GtkTextView" id="text_view">
-                <property name="editable">False</property>
-              </object>
+              <object class="DiveViewer" id="dive_viewer"/>
             </property>
             <property name="max-sidebar-width">600.0</property>
             <property name="sidebar">

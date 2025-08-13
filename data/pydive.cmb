@@ -21,7 +21,9 @@
     <requires>GasBlendView</requires>
     <requires>DivePointView</requires>
   </ui>
-  <ui template-class="PyDiveWindow" filename="gtk/main.ui" sha256="a6590f190c226a41081d6126bfaa0e77b732ee3671c0c414cf8c3f98bcc891b5">
+  <ui template-class="PyDiveWindow" filename="gtk/main.ui" sha256="23496531b500fe3c19fe1b1f82b8b1141b3df67d88514e292665f50c6978213c">
     <requires>DiveTableView</requires>
+    <requires>DiveViewer</requires>
   </ui>
+  <ui template-class="DiveViewer" filename="gtk/dive_viewer.ui" sha256="a6e87cca3fe04c7e196c2b2dcb8e7943bfd0dd127f8171a0ec4cccff2625d051"/>
 </cambalache-project>
