@@ -178,17 +178,22 @@ class Dive:
         gases = []
 
         current_time = 0
-
+        last_step = None
         for step in self.steps + self.decompression_steps:
+            if step.duration == 0:
+                continue
             if step.rate > 0:
                 step_types.append("➘")
             elif step.rate < 0:
                 step_types.append("➚")
+            elif last_step is not None and step.gas != last_step.gas:
+                step_types.append("⇄")
             elif step in self.decompression_steps:
                 step_types.append("■")
                 # Maybe use ⇄ for gas switch
             else:
                 step_types.append("➙")
+            last_step = step
             depths.append(step.start_depth + step.depth_change)
             durations.append(step.duration)
             current_time = current_time + step.duration
@@ -261,5 +266,13 @@ class Dive:
         return df
 
     def decompress(self):
-        for _ in self.decompression_model.calculate_decompression_profile():
-            pass
+        all_models = self.models
+        all_models.pop("decompression")
+        self.models = {"decompression": self.decompression_model}
+        stops = list(self.decompression_model.calculate_decompression_profile())
+        self.models.update(all_models)
+        for step in self.decompression_steps:
+            for model in all_models.values():
+                model.apply_dive_step(step)
+
+        return stops

@@ -70,6 +70,7 @@ class CNSOxygenToxicity(Model):
     cns_time_table = pd.read_csv(
         importlib.resources.files("pydive") / "models" / "cns.csv"
     )
+    cns_time_rows = list(cns_time_table.itertuples())
 
     def apply_dive_step(self, step):
         pO2i = step.gas.partial_pressure(Oxygen, step.start_depth)
@@ -87,7 +88,7 @@ class CNSOxygenToxicity(Model):
             warn(f"pO2 ({max_pO2}) exceeds table limits")
 
         if low_pO2 == max_pO2:
-            for row in self.cns_time_table.itertuples():
+            for row in self.cns_time_rows:
                 if row.pO2_low < low_pO2 <= row.pO2_high:
                     tlim = row.slope * low_pO2 + row.intercept
 
@@ -101,7 +102,7 @@ class CNSOxygenToxicity(Model):
         time = step.minutes * (max_pO2 - low_pO2) / (max_pO2 - min_pO2)
 
         inc = 0
-        for row in self.cns_time_table.itertuples():
+        for row in self.cns_time_rows:
             seg_low_pO2 = min(max(low_pO2, row.pO2_low), row.pO2_high)
             seg_high_pO2 = min(max(max_pO2, row.pO2_low), row.pO2_high)
             seg_time = time * (seg_high_pO2 - seg_low_pO2) / (max_pO2 - low_pO2)
