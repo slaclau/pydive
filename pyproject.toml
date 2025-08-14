@@ -39,3 +39,53 @@ exclude_also = [
     'if __name__ == .__main__.:',
     '__str__',
 ]
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint.MAIN]
+load-plugins = [
+    "pylint.extensions.docparams"
+]
+
+[tool.pylint.MESSAGES-CONTROL]
+enable = [
+    "missing-function-docstring",
+    "useless-suppression"
+]
+disable = [
+    "fixme",
+    "invalid-name",
+    "logging-fstring-interpolation",
+    "use-dict-literal"
+]
+extension-pkg-allow-list = [
+]
+
+[tool.pylint.parameter_documentation]
+accept-no-param-doc = false
+accept-no-raise-doc = false
+accept-no-return-doc = false
+accept-no-yields-doc = false
+# Possible choices: ['sphinx', 'epytext', 'google', 'numpy', 'default']
+default-docstring-type = "numpy"
+
+[tool.flake8]
+max-line-length = 88
+max-doc-length = 88
+docstring-convention = "numpy"
+extend-select = [
+    "D417",
+]
+extend-ignore = [
+    "D102",
+]
+extend-exclude = [
+]
+require-plugins = [
+    #    "flake8-pydocstyle",
+    "flake8-pylint",
+    "flake8-json",
+    "flake8-bugbear",
+]
+docstring_style = "numpy"
