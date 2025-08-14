@@ -74,7 +74,20 @@ def reference_dive(number, model):
 
 
 if __name__ == "__main__":
+    import sys
     import time
+
+    import pandas as pd
+
+    if "write_csv" in sys.argv:
+        write_csv = True
+    else:
+        write_csv = False
+
+    if "check_csv" in sys.argv:
+        check_csv = True
+    else:
+        check_csv = False
 
     for i in range(1, 6):
         for model in models:
@@ -92,3 +105,12 @@ if __name__ == "__main__":
             print(f"{dive.models["decompression"]} deco loading")
             print(dive.models["consumption"])
             print("-" * 71)
+
+            csv_path = f"ref_dive_{i}_{model}.csv"
+
+            if write_csv:
+                dive.df.to_csv(csv_path, index=False)
+            if check_csv:
+
+                compare_df = pd.read_csv(csv_path, parse_dates=["time"])
+                assert dive.df.equals(compare_df)
