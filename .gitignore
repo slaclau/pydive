@@ -209,4 +209,4 @@ __marimo__/
 # Local
 /src/pydive/_version.py
 /data/resources.gresource
-*.csv
+./*.csv
