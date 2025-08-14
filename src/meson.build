@@ -1,4 +1,7 @@
-sources = run_command(['find', '.', '-name', '*.py'], check: true).stdout().strip().replace('./', '').split('\n')
+sources = run_command(
+    ['find', '.', '-name', '*.py', '-not', '-name', '*checkpoint.py'],
+    check: true
+).stdout().strip().replace('./', '').split('\n')
 
 py_installation = python.find_installation()
 py_installation.install_sources(
