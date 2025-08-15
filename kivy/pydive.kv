@@ -1,0 +1,31 @@
+#:kivy 2.1.0
+
+<PDPlanDive>:
+    orientation: "vertical"
+    MDRectangleFlatIconButton:
+        pos_hint: {"center_x": .5, "center_y": .5}
+        icon: "plus"
+        text: "Add dive step"
+        on_press: root.add_dive_step(*args)
+
+<PDSelectGases>:
+    MDLabel:
+        text: "Select Gases Tab"
+
+<PDWidget>:
+    orientation: "vertical"
+    MDTopAppBar:
+        title: "PyDive Decompression Planner"
+    MDTabs:
+        on_tab_switch: root.on_tab_switch(*args)
+        Tab:
+            icon: "diving-scuba"
+            title: "Plan Dive"
+            key: "plan"
+            PDPlanDive:
+
+        Tab:
+            icon: "diving-scuba-tank"
+            title: "Select Gases"
+            key: "gas"
+            PDSelectGases:
