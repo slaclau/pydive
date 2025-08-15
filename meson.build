@@ -5,13 +5,16 @@ project('io.github.slaclau.pydive',
 
 python = import('python')
 i18n = import('i18n')
-gnome = import('gnome')
-
+if target_machine.system() != 'darwin'
+  gnome = import('gnome')
+endif
 subdir('src')
 subdir('data')
 
-gnome.post_install(
+if target_machine.system() != 'darwin'
+  gnome.post_install(
      glib_compile_schemas: false,
     gtk_update_icon_cache: false,
   update_desktop_database: false,
-)
+  )
+endif
