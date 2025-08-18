@@ -1,12 +1,49 @@
 #:kivy 2.1.0
 
+<PDDiveRow>:
+    size_hint_y: None
+    spacing: 5
+    height: self.minimum_height
+    MDTextField:
+        text: "0"
+        on_text: root.on_text("depth", *args)
+        mode: "fill"
+        size_hint: (0.25, None)
+    MDTextField:
+        text: "0"
+        on_text: root.on_text("duration", *args)
+        mode: "fill"
+        size_hint: (0.25, None)
+    MDLabel:
+        size_hint: (0.25, None)
+        height: sp(40)
+        text: root.runtime
+
 <PDPlanDive>:
     orientation: "vertical"
+    MDScrollView:
+        MDGridLayout:
+            cols: 1
+            spacing: 5
+            id: box
+            anchor: "top"
+            height: self.minimum_height
+            size_hint_y: None
+            MDBoxLayout:
+                size_hint_y: None
+                height: sp(40)
+                MDLabel:
+                    text: "Depth (m)"
+                MDLabel:
+                    text: "Duration (min)"
+                MDLabel:
+                    text: "Runtime (min)"
     MDRectangleFlatIconButton:
-        pos_hint: {"center_x": .5, "center_y": .5}
         icon: "plus"
         text: "Add dive step"
         on_press: root.add_dive_step(*args)
+        size_hint: (1, None)
+        anchor: "bottom"
 
 <PDSelectGases>:
     MDLabel:
@@ -18,13 +55,13 @@
         title: "PyDive Decompression Planner"
     MDTabs:
         on_tab_switch: root.on_tab_switch(*args)
-        Tab:
+        PDTab:
             icon: "diving-scuba"
             title: "Plan Dive"
             key: "plan"
             PDPlanDive:
 
-        Tab:
+        PDTab:
             icon: "diving-scuba-tank"
             title: "Select Gases"
             key: "gas"

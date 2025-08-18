@@ -1,4 +1,6 @@
 import kivy
+from kivy.properties import NumericProperty, StringProperty
+from kivymd.uix.anchorlayout import MDAnchorLayout
 
 kivy.require("2.1.0")  # replace with your current kivy version !
 
@@ -14,25 +16,45 @@ from kivy.core.window import Window
 Logger.setLevel(LOG_LEVELS["debug"])
 
 
-class Tab(MDFloatLayout, MDTabsBase):
+class PDTab(MDFloatLayout, MDTabsBase):
     pass
+
+
+class PDDiveRow(MDBoxLayout):
+    duration = NumericProperty(0)
+    depth = NumericProperty(0)
+    runtime = StringProperty("0")
+
+    def on_text(self, key, text_field, value):
+        Logger.debug(f"{key} field set to {value}")
+        try:
+            self.__setattr__(key, int(value))
+            text_field.error = False
+            if key == "duration":
+                self.parent.parent.parent.update_runtimes()
+        except ValueError:
+            text_field.error = True
 
 
 class PDPlanDive(MDBoxLayout):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.data_tables = MDDataTable(
-            column_data=[
-                ("Depth", sp(20)),
-                ("Duration", sp(20)),
-                ("Runtime", sp(20)),
-                ("Gas", sp(20)),
-            ],
-        )
-        self.add_widget(self.data_tables)
 
     def add_dive_step(self, _button):
-        self.data_tables.add_row([0, 0, 0, 0])
+        print("add row")
+        self.ids.box.add_widget(PDDiveRow())
+
+    def update_runtimes(self):
+        for i in range(len(self.ids.box.children) - 2, 0, -1):
+            if i == 1:
+                self.ids.box.children[i].runtime = str(
+                    self.ids.box.children[i].duration
+                )
+            else:
+                self.ids.box.children[i].runtime = str(
+                    int(self.ids.box.children[i + 1].runtime)
+                    + self.ids.box.children[i].duration
+                )
 
 
 class PDSelectGases(MDBoxLayout):
